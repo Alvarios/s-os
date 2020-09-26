@@ -1,4 +1,8 @@
-# Kushuh go file utils
+# Super OS
+
+```cgo
+go get -u github.com/Alvarios/s-os
+```
 
 ## Upsert
 
