@@ -7,8 +7,8 @@ import (
 )
 
 // For upsert and delete functions
-func TestIUD(t *testing.T) {
-	root, err := FindProjectRoot("file-utils")
+func TestCRUD(t *testing.T) {
+	root, err := FindProjectRoot("s-os")
 	if err != nil {
 		t.Errorf("unexpected error : %s", err.Error())
 		return
