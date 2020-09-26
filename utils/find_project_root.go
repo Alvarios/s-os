@@ -1,4 +1,4 @@
-package sos
+package sosutils
 
 import (
 	"errors"

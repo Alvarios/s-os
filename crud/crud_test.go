@@ -1,14 +1,15 @@
-package sos
+package soscrud
 
 import (
 	"fmt"
+	"github.com/Alvarios/s-os/utils"
 	"io/ioutil"
 	"testing"
 )
 
 // For upsert and delete functions
 func TestCRUD(t *testing.T) {
-	root, err := FindProjectRoot("s-os")
+	root, err := sosutils.FindProjectRoot("s-os")
 	if err != nil {
 		t.Errorf("unexpected error : %s", err.Error())
 		return

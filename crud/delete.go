@@ -1,4 +1,4 @@
-package sos
+package soscrud
 
 import "os"
 

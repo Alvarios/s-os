@@ -4,43 +4,74 @@
 go get -u github.com/Alvarios/s-os
 ```
 
-## Upsert
+Advanced OS functions for server-side processes.
 
-Open a file, and create it if it doesn't exist already. If path is incomplete
-(intermediate folders are missing), they will also be created automatically.
+## CRUD
+
+Interacting with local files has never been as easy than with sos.
+
+### About path syntax
+
+Path syntax in SOS can be an absolute path if it starts with a "/". Otherwise,
+sos will search for the first parent directory that matches the first one of the
+path and open file relatively to this one.
+
+For example, "myProject/config/api.json" will look for the first parent directory
+named "myProject" to look for the api.json file. The reason for this is that in
+many Go use cases, including testing, the executable will work from its nearest
+sub-directory, which won't be the root folder but a child of it.
+
+sos takes 3 assumptions to ensure this works
+
+- the path, if not absolute, is always relative to project root
+- project folder has a unique name within the project (no child folders share their name with the root folder)
+- the file is executed somewhere within the project 
+
+### Get file
 
 ```go
-file, err := fileUtils.Upsert(pathToFile)
+package myPackage
+
+import "github.com/Alvarios/s-os/crud"
+
+func main() {
+    var file interface{} //put any type you want here.
+
+    err := soscrud.Get("path/to/my/file", file)
+    if err != nil {
+        // Handle error here.
+    }
+}
 ```
 
-## Delete
-
-Delete a file.
+### Create file only if it doesn't exist already
 
 ```go
-err := fileUtils.Delete(pathToFile)
+package myPackage
+
+import "github.com/Alvarios/s-os/crud"
+
+func main() {
+    file, err := soscrud.Upsert("path/to/my/file")
+    if err != nil {
+        // Handle error here.
+    }
+}
 ```
 
-## OpenFromProjectRoot
-
-Open a file relative to project root, when a command is ran from a sub-directory
-(which happens with tests and some other commands).
-
-It ensures a file opens from project root with go modules, without having to pass
-it as an ENV variable (like GOPATH does in non module go packages). It assumes
-the project folder has an unique name in the entire project tree.
+### Delete a file
 
 ```go
-file, err := fileUtils.OpenFromProjectRoot(rootFolderName, relativePath)
-```
+package myPackage
 
-## FindProjectRoot
+import "github.com/Alvarios/s-os/crud"
 
-Returns the absolute path for the root of a project. It assumes
-the project folder has an unique name in the entire project tree.
-
-```go
-path, err := fileUtils.FindProjectRoot(rootFolderName)
+func main() {
+    err := soscrud.Delete("path/to/my/file")
+    if err != nil {
+        // Handle error here.
+    }
+}
 ```
 
 ## Copyright
